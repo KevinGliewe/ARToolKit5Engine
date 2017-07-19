@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="gl.kev.ar.arengine.AREngineActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    >
+    <android.support.percent.PercentFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="368dp"
+        android:layout_height="501dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+        <FrameLayout
+            app:layout_heightPercent="100%"
+            app:layout_aspectRatio="133%"
+            android:layout_gravity="center">
+            <AbsoluteLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/mainContainer"
+                android:background="#00ffffff"
+                >
+                <FrameLayout
+                    android:id="@+id/mainARLayout"
+                    android:layout_x="0px"
+                    android:layout_y="0px"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </AbsoluteLayout>
+        </FrameLayout>
+    </android.support.percent.PercentFrameLayout>
+</android.support.constraint.ConstraintLayout>

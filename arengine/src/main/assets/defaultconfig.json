@@ -1,0 +1,26 @@
+{
+    "script_world": [
+        "world.setAmbientLight(50, 50, 50);",
+        "var sun = new com.threed.jpct.Light(world);",
+        "sun.setIntensity(150, 150, 150);"
+    ],
+    "marker": [
+        {
+            "marker": "multi;Data/frame.dat",
+            "gizmo": true,
+            "script": [
+                "var cube = com.threed.jpct.Primitives.getCube(60);",
+                "cube.translate(200, 0, 0);",
+                "cube.rotateY(3.14159/4);",
+                "marker.addChild(cube);"
+            ],
+            "models": [
+                {
+                    "scale": 1,
+                    "rx": -1.5708,
+                    "model":"loader.asset('models/teapot.obj');"
+                }
+            ]
+        }
+    ]
+}

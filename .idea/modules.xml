@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/Documents/prog/Fraunhofer/ARApp/ARApp.iml" filepath="$USER_HOME$/Documents/prog/Fraunhofer/ARApp/ARApp.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/prog/Fraunhofer/ARApp/app/app.iml" filepath="$USER_HOME$/Documents/prog/Fraunhofer/ARApp/app/app.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/prog/Fraunhofer/ARApp/arengine/arengine.iml" filepath="$USER_HOME$/Documents/prog/Fraunhofer/ARApp/arengine/arengine.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/prog/Fraunhofer/ARApp/artoolkit5/artoolkit5.iml" filepath="$USER_HOME$/Documents/prog/Fraunhofer/ARApp/artoolkit5/artoolkit5.iml" />
+    </modules>
+  </component>
+</project>

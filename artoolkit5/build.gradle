@@ -1,0 +1,70 @@
+version = "5.3.2.2"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// TEMPLATE /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+// Get Git informations
+def branch = "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+def revision = "git rev-parse --short HEAD".execute().text.trim()
+def origin = "git config --get remote.origin.url".execute().text.trim()
+def timestamp = new Date().format("yyyy-MM-dd HH:mm:ss")
+// Inject Variablet into templates
+def binding = [
+        "timestamp": timestamp,
+        "projectDir": projectDir,
+        "version": version,
+        "user": System.getProperty("user.name"),
+        "machine": InetAddress.getLocalHost().getHostName(),
+        "branch": branch,
+        "revision": revision,
+        "origin": origin,
+]
+def templengine = new groovy.text.SimpleTemplateEngine()
+projectDir.eachDirRecurse() { dir ->
+    dir.eachFileMatch(~/.*.templ/) { file ->
+        def targetfile = new File(file.getParent() + "/" + file.name.split("\\.")[0..-2].join("."))
+        println file.getPath()
+        println targetfile
+        targetfile.write(templengine.createTemplate(file).make(binding).toString())
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'src/libs')
+    testCompile 'junit:junit:4.12'
+    //compile 'com.android.support:appcompat-v7:23.1.1'
+}

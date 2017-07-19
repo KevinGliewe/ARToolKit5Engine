@@ -1,0 +1,23 @@
+package org.artoolkit.ar;
+
+public class BuildInfo {
+    public static final String TIMESTAMP = "${timestamp}";
+    public static final String PROJECTDIR = "${projectDir.toString().replace("\\", "\\\\")}";
+    public static final String VERSION = "${version}";
+    public static final String USER = "${user}";
+    public static final String MACHINE = "${machine}";
+    public static final String GIT_BRANCH = "${branch}";
+    public static final String GIT_ORIGIN = "${origin}";
+    public static final String GIT_REVISION = "${revision}";
+    public static String getInfoText() {
+        return
+                "TIMESTAMP:    " + TIMESTAMP + "\\n" +
+                "PROJECTDIR:   " + PROJECTDIR + "\\n" +
+                "VERSION:      " + VERSION + "\\n" +
+                "USER:         " + USER + "\\n" +
+                "MACHINE:      " + MACHINE + "\\n" +
+                "GIT_BRANCH:   " + GIT_BRANCH + "\\n" +
+                "GIT_ORIGIN:   " + GIT_ORIGIN + "\\n" +
+                "GIT_REVISION: " + GIT_REVISION;
+    }
+}
