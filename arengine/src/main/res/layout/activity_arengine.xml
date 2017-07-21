@@ -9,10 +9,8 @@
     <android.support.percent.PercentFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="368dp"
-        android:layout_height="501dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <FrameLayout
             app:layout_heightPercent="100%"
             app:layout_aspectRatio="133%"

@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 23
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 
@@ -25,7 +25,7 @@ dependencies {
     compile files('src/main/dependencies/jpct_ae.jar')
 
     // View with fixed ratio
-    compile 'com.android.support:percent:25.3.1'
+    compile 'com.android.support:percent:23.3.0'
 
     // JSON Parster
     compile 'com.google.code.gson:gson:2.4'
@@ -36,7 +36,7 @@ dependencies {
     })
     compile project(':artoolkit5')
     compile 'org.mozilla:rhino:1.7.7.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
