@@ -38,6 +38,8 @@ public class TrackableObject3d extends Object3D {
 
     private Position mPosition = new Position();
 
+    private String name = "NONAMME";
+
     public TrackableObject3d(String markerString) {
         super(2); // 2 mx triangles, this object is the parent of all the trackable items
         mMarkerString = markerString;
@@ -181,5 +183,15 @@ public class TrackableObject3d extends Object3D {
 
     public void addLight(TrackableLight light) {
         mLights.add(light);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }

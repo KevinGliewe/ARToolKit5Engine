@@ -6,6 +6,7 @@
     ],
     "marker": [
         {
+            "name": "mymarker",
             "marker": "multi;Data/frame.dat",
             "gizmo": true,
             "script": [

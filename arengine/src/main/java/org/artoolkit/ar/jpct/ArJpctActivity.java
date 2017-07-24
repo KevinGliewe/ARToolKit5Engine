@@ -21,6 +21,7 @@ public abstract class ArJpctActivity extends ARActivity {
     private static final String DUMMY_TEXTURE = "--dummy--";
 
     private ArJcptRenderer arJcptRenderer = new ArJcptRenderer(this);
+    private List<TrackableObject3d> mTrackableObjects = null;
 
     @Override
     protected ARRenderer supplyRenderer() {
@@ -28,9 +29,9 @@ public abstract class ArJpctActivity extends ARActivity {
     }
 
     public final List<TrackableObject3d> getTrackableObject3DList() {
-        List<TrackableObject3d> list = new ArrayList<TrackableObject3d>();
-        populateTrackableObjects(list);
-        return list;
+        mTrackableObjects = new ArrayList<TrackableObject3d>();
+        populateTrackableObjects(mTrackableObjects);
+        return mTrackableObjects;
     }
 
     @Override
@@ -73,6 +74,29 @@ public abstract class ArJpctActivity extends ARActivity {
      */
     protected void beforeDraw(GL10 gl) {}
 
+    public TrackableObject3d getTrackedObject(String name) {
+        for(TrackableObject3d obj : mTrackableObjects) {
+            if(obj.getName().equals(name))
+                return obj;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the 2D Screen position of a named tracked object.
+     * Returns null if it is not visible.
+     * @param name
+     * @return 2D position in screen.
+     */
+    public SimpleVector getTrackedObject2DPos(String name) {
+        TrackableObject3d obj = getTrackedObject(name);
+        if(obj == null)
+            return null;
+        if(!obj.getVisibility())
+            return null;
+        return project3Dto2D(obj);
+    }
+
     /**
      * Projects a 3D Position from world space into screen space.
      * @param pos3D
@@ -82,4 +106,12 @@ public abstract class ArJpctActivity extends ARActivity {
         return getArJcptRenderer().project3Dto2D(pos3D);
     }
 
+    /**
+     * Projects a 3D Position from world space into screen space.
+     * @param pos3D
+     * @return 2D Screen position
+     */
+    public SimpleVector project3Dto2D(TrackableObject3d pos3D) {
+        return getArJcptRenderer().project3Dto2D(pos3D.getTranslation());
+    }
 }

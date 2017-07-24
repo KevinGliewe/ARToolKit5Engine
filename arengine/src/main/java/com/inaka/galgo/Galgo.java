@@ -17,6 +17,8 @@
  */
 package com.inaka.galgo;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -26,9 +28,13 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 public class Galgo {
+
+    private static final int MY_PERMISSIONS_REQUEST_SYSTEM_ALERT_WINDOW = 135;
 
     private static final Handler UI_HANDLER = new Handler(Looper.getMainLooper()) {
         @Override
@@ -51,7 +57,8 @@ public class Galgo {
      * @param context Context
      * @param options Custom {@link com.inaka.galgo.GalgoOptions}
      */
-    public static void enable(Context context, GalgoOptions options) {
+    public static void enable(Activity context, GalgoOptions options) {
+        requestPermission(context);
         checkPermission(context);
         sOptions = options;
         init(context);
@@ -61,11 +68,11 @@ public class Galgo {
      * Starts a new Galgo with default {@link com.inaka.galgo.GalgoOptions}
      * @param context Context
      */
-    public static void enable(Context context) {
+    public static void enable(Activity context) {
         enable(context, new GalgoOptions.Builder().build());
     }
 
-    private static void init(Context context) {
+    private static void init(Activity context) {
 
         sConnection = new ServiceConnection() {
 
@@ -86,7 +93,7 @@ public class Galgo {
         context.bindService(intent, sConnection, Context.BIND_AUTO_CREATE);
     }
 
-    public static void disable(Context context) {
+    public static void disable(Activity context) {
         context.unbindService(sConnection);
     }
 
@@ -101,6 +108,15 @@ public class Galgo {
         //Log.i(TAG, message);
         Message msg = UI_HANDLER.obtainMessage(0, message);
         msg.sendToTarget();
+    }
+
+    private static void requestPermission(Activity context) {
+        if(! (ContextCompat.checkSelfPermission(context, Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(context,
+                    new String[] { Manifest.permission.SYSTEM_ALERT_WINDOW },
+                    MY_PERMISSIONS_REQUEST_SYSTEM_ALERT_WINDOW
+                    );
+        }
     }
 
     private static void checkPermission(Context context) {

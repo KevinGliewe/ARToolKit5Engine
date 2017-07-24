@@ -17,6 +17,7 @@ import gl.kev.logging.GLog;
  */
 
 public class ARMarker {
+    public String name;
     public String marker;
     public String[] script;
 
@@ -31,6 +32,9 @@ public class ARMarker {
 
         TrackableObject3d marker_ = new TrackableObject3d(marker);
         list.add(marker_);
+
+        if(name != null)
+            marker_.setName(name);
 
         if(gizmo) {
             GLog.debug("Attach Gizmo to marker " + marker);

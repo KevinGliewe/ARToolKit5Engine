@@ -2,12 +2,21 @@ package gl.kev.ar.arapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import gl.kev.ar.arengine.AREngineActivity;
+
+public class MainActivity extends AREngineActivity {
+
+    TextView tv_HelloWorld;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        tv_HelloWorld = new TextView(this);
+        tv_HelloWorld.setText("Hello World");
+
+        addTrackedView("mymarker", tv_HelloWorld);
     }
 }

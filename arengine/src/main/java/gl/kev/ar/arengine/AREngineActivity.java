@@ -8,11 +8,14 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.threed.jpct.Config;
+import com.threed.jpct.SimpleVector;
 import com.threed.jpct.World;
 
 import org.artoolkit.ar.jpct.ArJpctActivity;
@@ -22,11 +25,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.microedition.khronos.opengles.GL10;
 
 import gl.kev.ar.arengine.config.ARSceneConfig;
 import gl.kev.ar.arengine.helper.ActivityX;
 import gl.kev.ar.arengine.helper.FileSystem;
+import gl.kev.ar.arengine.helper.ViewX;
 import gl.kev.ar.arengine.helper.jpct.JPCTHelper;
 import gl.kev.logging.GLog;
 
@@ -41,7 +49,12 @@ public class AREngineActivity extends ArJpctActivity {
 
     ARSceneConfig config;
     World world;
+
+    AbsoluteLayout al_mainContainer;
     FrameLayout fl_mainARLayout;
+
+    Map<String, View> mTrackedViews = new HashMap<>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +62,7 @@ public class AREngineActivity extends ArJpctActivity {
         setContentView(R.layout.activity_arengine);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        al_mainContainer = (AbsoluteLayout)findViewById(R.id.mainContainer);
         fl_mainARLayout = (FrameLayout)this.findViewById(R.id.mainARLayout);
 
         if (!checkCameraPermission()) {
@@ -125,5 +139,39 @@ public class AREngineActivity extends ArJpctActivity {
 
     public void Fullscreen() {
         ActivityX.makeFullsteen(this.getWindow());
+    }
+
+    public void addTrackedView(String name, View view) {
+        mTrackedViews.put(name, view);
+        ViewX.setVisible(view, false);
+        al_mainContainer.addView(view);
+    }
+
+    public void removeTrackedView(String name) {
+        al_mainContainer.removeView(mTrackedViews.get(name));
+        mTrackedViews.remove(name);
+    }
+
+    @Override
+    public void beforeDraw(GL10 gl) {
+
+        if(mTrackedViews.size() <= 0)
+            return;
+
+        this.runOnUiThread(new Runnable() {
+               @Override
+               public void run() {
+                   // Update Views
+                   for(String name: mTrackedViews.keySet()) {
+                       SimpleVector pos = getTrackedObject2DPos(name);
+
+                       ViewX.setVisible(mTrackedViews.get(name), pos != null);
+
+                       if(pos != null)
+                           ViewX.setPosition(mTrackedViews.get(name), (int)pos.x, (int)pos.y);
+                   }
+               }
+           }
+        );
     }
 }

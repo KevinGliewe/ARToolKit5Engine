@@ -25,9 +25,21 @@
         android:name="gl.kev.ar.arengine.AREngineApplication"
         >
         <activity
-            android:name="gl.kev.ar.arengine.AREngineActivity"
+            android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".MainActivity_debug"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="ARApp Debug"
             android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" >
 
             <intent-filter>

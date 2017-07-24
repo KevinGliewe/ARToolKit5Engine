@@ -134,6 +134,8 @@ public class ArJcptRenderer extends ARRenderer {
             trackableObject.updateMarkerTransformation();
         }
 
+        mActivity.beforeDraw(gl);
+
         mWorld.renderScene(mBuffer);
         mWorld.draw(mBuffer);
         mBuffer.display();
@@ -170,6 +172,10 @@ public class ArJcptRenderer extends ARRenderer {
             }
         }
         return pos;
+    }
+
+    public TrackableObject3d[] getTrackedObjects() {
+        return this.mTrackableObjects.toArray(new TrackableObject3d[this.mTrackableObjects.size()]);
     }
 
     /**

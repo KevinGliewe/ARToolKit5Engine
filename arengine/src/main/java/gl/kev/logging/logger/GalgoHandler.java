@@ -1,5 +1,6 @@
 package gl.kev.logging.logger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 
@@ -11,9 +12,9 @@ import gl.kev.logging.LogEntry;
 
 
 public class GalgoHandler implements ILoggingHandler {
-    private Context context;
+    private Activity context;
 
-    public GalgoHandler(Context context) {
+    public GalgoHandler(Activity context) {
         this.context = context;
     }
 
