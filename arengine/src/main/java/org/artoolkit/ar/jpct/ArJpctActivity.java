@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import gl.kev.ar.arengine.helper.math.Position;
+
 /**
  * Created by portales on 11/11/15.
  */
@@ -82,6 +84,21 @@ public abstract class ArJpctActivity extends ARActivity {
         return null;
     }
 
+    public Position getTag(String name) {
+        for(TrackableObject3d obj : mTrackableObjects) {
+            if(!obj.getVisibility())
+                continue;;
+            for(String tagname : obj.getTags().keySet()) {
+                if(tagname.equals(name)) {
+                    Position pos = obj.getTags().get(name);
+                    Position trackablePositinon = obj.getPosition();
+                    return trackablePositinon.clone().add(pos.clone().invert());
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Returns the 2D Screen position of a named tracked object.
      * Returns null if it is not visible.
@@ -95,6 +112,13 @@ public abstract class ArJpctActivity extends ARActivity {
         if(!obj.getVisibility())
             return null;
         return project3Dto2D(obj);
+    }
+
+    public SimpleVector getTag2DPos(String name) {
+        Position pos = getTag(name);
+        if(pos == null)
+            return null;
+        return project3Dto2D(pos.getV().toSimpleVector());
     }
 
     /**

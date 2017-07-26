@@ -17,6 +17,6 @@ public class MainActivity extends AREngineActivity {
         tv_HelloWorld = new TextView(this);
         tv_HelloWorld.setText("Hello World");
 
-        addTrackedView("mymarker", tv_HelloWorld);
+        addTrackedView("mytag", tv_HelloWorld);
     }
 }

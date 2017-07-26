@@ -13,7 +13,9 @@ import org.joml.Matrix4f;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gl.kev.ar.arengine.helper.jpct.Node3D;
 import gl.kev.ar.arengine.helper.math.Position;
@@ -39,6 +41,8 @@ public class TrackableObject3d extends Object3D {
     private Position mPosition = new Position();
 
     private String name = "NONAMME";
+
+    private Map<String, Position> mTags = new HashMap<>();
 
     public TrackableObject3d(String markerString) {
         super(2); // 2 mx triangles, this object is the parent of all the trackable items
@@ -194,4 +198,6 @@ public class TrackableObject3d extends Object3D {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Map<String, Position> getTags() { return mTags; }
 }

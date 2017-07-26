@@ -36,6 +36,7 @@ import gl.kev.ar.arengine.helper.ActivityX;
 import gl.kev.ar.arengine.helper.FileSystem;
 import gl.kev.ar.arengine.helper.ViewX;
 import gl.kev.ar.arengine.helper.jpct.JPCTHelper;
+import gl.kev.ar.arengine.helper.math.Position;
 import gl.kev.logging.GLog;
 
 /**
@@ -164,6 +165,9 @@ public class AREngineActivity extends ArJpctActivity {
                    // Update Views
                    for(String name: mTrackedViews.keySet()) {
                        SimpleVector pos = getTrackedObject2DPos(name);
+
+                       if(pos == null)
+                           pos = getTag2DPos(name);
 
                        ViewX.setVisible(mTrackedViews.get(name), pos != null);
 

@@ -21,6 +21,14 @@
                     "rx": -1.5708,
                     "model":"loader.asset('models/teapot.obj');"
                 }
+            ],
+            "tags": [
+                {
+                    "x": 100,
+                    "y": 100,
+                    "z": 100,
+                    "name": "mytag"
+                }
             ]
         }
     ]

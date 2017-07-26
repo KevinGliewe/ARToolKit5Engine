@@ -1,4 +1,4 @@
-version = "5.3.2.2"
+version = "5.3.2.3"
 
 buildscript {
     repositories {
@@ -48,14 +48,17 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName version
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 

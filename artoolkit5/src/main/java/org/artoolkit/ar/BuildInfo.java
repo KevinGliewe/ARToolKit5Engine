@@ -1,14 +1,14 @@
 package org.artoolkit.ar;
 
 public class BuildInfo {
-    public static final String TIMESTAMP = "2017-07-24 23:16:54";
+    public static final String TIMESTAMP = "2017-07-26 15:54:18";
     public static final String PROJECTDIR = "/Users/kevingliewe/Documents/prog/Fraunhofer/ARApp/artoolkit5";
-    public static final String VERSION = "5.3.2.2";
+    public static final String VERSION = "5.3.2.3";
     public static final String USER = "kevingliewe";
     public static final String MACHINE = "Kevins-MacBook-Pro-2.local";
     public static final String GIT_BRANCH = "master";
     public static final String GIT_ORIGIN = "git@github.com:KevinGliewe/ARToolKit5Engine.git";
-    public static final String GIT_REVISION = "ed0eb05";
+    public static final String GIT_REVISION = "1abc991";
     public static String getInfoText() {
         return
                 "TIMESTAMP:    " + TIMESTAMP + "\n" +

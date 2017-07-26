@@ -10,6 +10,7 @@ import java.util.List;
 import gl.kev.ar.arengine.AREngineActivity;
 import gl.kev.ar.arengine.helper.Scripting;
 import gl.kev.ar.arengine.helper.jpct.JPCTHelper;
+import gl.kev.ar.arengine.helper.math.Position;
 import gl.kev.logging.GLog;
 
 /**
@@ -22,6 +23,9 @@ public class ARMarker {
     public String[] script;
 
     public ARModel[] models;
+
+    public ARTag[] tags;
+
     public boolean gizmo = false;
 
     public void apply(AREngineActivity activity, List<TrackableObject3d> list) {
@@ -35,6 +39,10 @@ public class ARMarker {
 
         if(name != null)
             marker_.setName(name);
+
+        if(tags != null)
+            for(ARTag tag : tags)
+                marker_.getTags().put(tag.name, new Position(tag.x, tag.y, tag.z));
 
         if(gizmo) {
             GLog.debug("Attach Gizmo to marker " + marker);
