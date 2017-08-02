@@ -9,6 +9,11 @@
             "name": "mymarker",
             "marker": "multi;Data/frame.dat",
             "gizmo": true,
+            "options": {
+                "bool_type": {
+                    "ARW_MARKER_OPTION_SQUARE_USE_CONT_POSE_ESTIMATION": true
+                }
+            },
             "script": [
                 "var cube = com.threed.jpct.Primitives.getCube(60);",
                 "cube.translate(200, 0, 0);",

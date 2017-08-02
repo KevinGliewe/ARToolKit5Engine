@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gl.kev.ar.arengine.AREngineActivity;
 import gl.kev.ar.arengine.helper.FileSystem;
@@ -44,24 +45,28 @@ public class ARModel {
 
     public int transparency = 20;
 
+    private static Map<String, Object3D[]> modelcache = new HashMap<>();
+
     public void apply(AREngineActivity activity, TrackableObject3d marker, List<TrackableObject3d> list) {
         HashMap<String, Object> context = new HashMap<>();
         context.put("loader", new ModelLoader(activity));
         context.put("activity", activity);
 
-
+        Object3D[] object3DfArr = null;
         InputStream inputStream = null;
 
         if(model != null) {
-            inputStream = (InputStream) Scripting.execute(model, context);
+            if(modelcache.containsKey(model))
+                object3DfArr = modelcache.get(model);
+            else
+                inputStream = (InputStream) Scripting.execute(model, context);
         } else {
             GLog.info("model is null");
         }
 
-        Object3D[] object3DfArr = null;
-
-        if(inputStream != null) {
-            object3DfArr = Loader.loadOBJ(inputStream, null, (float)scale);
+        if(inputStream != null || object3DfArr != null) {
+            if(inputStream != null)
+                object3DfArr = Loader.loadOBJ(inputStream, null, 1.0F);
             Node3D node = new Node3D();
             for(Object3D object3Df : object3DfArr) {
                 node.addChild(object3Df);

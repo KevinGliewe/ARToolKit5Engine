@@ -28,6 +28,8 @@ public class ARMarker {
 
     public boolean gizmo = false;
 
+    public ARMarkerOptions options;
+
     public void apply(AREngineActivity activity, List<TrackableObject3d> list) {
         if(marker == null)
             return;
@@ -35,6 +37,7 @@ public class ARMarker {
         GLog.debug("Loading marker " + marker);
 
         TrackableObject3d marker_ = new TrackableObject3d(marker);
+        marker_.setOptions(options);
         list.add(marker_);
 
         if(name != null)

@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gl.kev.ar.arengine.config.ARMarkerOptions;
 import gl.kev.ar.arengine.helper.jpct.Node3D;
 import gl.kev.ar.arengine.helper.math.Position;
 
@@ -31,6 +32,11 @@ public class TrackableObject3d extends Object3D {
     public final static String TAG = "TrackableObject3d";
 
     private final String mMarkerString;
+
+    public int getmMarkerId() {
+        return mMarkerId;
+    }
+
     private int mMarkerId;
     private Matrix projMatrix = new Matrix();
     private List<Object3D> mChildren = new ArrayList<Object3D>();
@@ -43,6 +49,12 @@ public class TrackableObject3d extends Object3D {
     private String name = "NONAMME";
 
     private Map<String, Position> mTags = new HashMap<>();
+
+    public void setOptions(ARMarkerOptions options) {
+        this.options = options;
+    }
+
+    private ARMarkerOptions options = null;
 
     public TrackableObject3d(String markerString) {
         super(2); // 2 mx triangles, this object is the parent of all the trackable items
@@ -85,6 +97,8 @@ public class TrackableObject3d extends Object3D {
      */
     public boolean registerMarker() {
         mMarkerId = ARToolKit.getInstance().addMarker(mMarkerString);
+        if(options != null)
+            options.apply(mMarkerId);
         return mMarkerId != -1;
     }
 
