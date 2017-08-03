@@ -1,4 +1,6 @@
 {
+    "PatternDetectionMode": "AR_MATRIX_CODE_DETECTION",
+    "MatrixCodeType": "AR_MATRIX_CODE_3x3",
     "script_world": [
         "world.setAmbientLight(50, 50, 50);",
         "var sun = new com.threed.jpct.Light(world);",
@@ -11,7 +13,7 @@
             "gizmo": true,
             "options": {
                 "bool_type": {
-                    "ARW_MARKER_OPTION_SQUARE_USE_CONT_POSE_ESTIMATION": true
+                    "ARW_MARKER_OPTION_SQUARE_USE_CONT_POSE_ESTIMATION": false
                 }
             },
             "script": [
