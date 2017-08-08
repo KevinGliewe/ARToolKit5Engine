@@ -47,6 +47,22 @@ public class ARModel {
 
     private static Map<String, Object3D[]> modelcache = new HashMap<>();
 
+    public static void preloadModel(AREngineActivity activity, ARModel m) {
+        Object3D[] object3DfArr = null;
+        InputStream inputStream = null;
+
+        if(m.model != null) {
+            if(!modelcache.containsKey(m.model)) {
+                HashMap<String, Object> context = new HashMap<>();
+                context.put("loader", new ModelLoader(activity));
+                context.put("activity", activity);
+                inputStream = (InputStream) Scripting.execute(m.model, context);
+                object3DfArr = Loader.loadOBJ(inputStream, null, 1.0F);
+                modelcache.put(m.model, object3DfArr);
+            }
+        }
+    }
+
     public void apply(AREngineActivity activity, TrackableObject3d marker, List<TrackableObject3d> list) {
         HashMap<String, Object> context = new HashMap<>();
         context.put("loader", new ModelLoader(activity));
@@ -85,6 +101,8 @@ public class ARModel {
             node.setCollisionMode(Object3D.COLLISION_CHECK_OTHERS);
 
             marker.addChild(node);
+
+            modelcache.put(model, object3DfArr);
         } else {
             GLog.info("'" + model + "' returned null");
         }
@@ -95,38 +113,6 @@ public class ARModel {
             context.put("config", this);
             context.put("objects3D", object3DfArr);
             Scripting.execute(script, context);
-        }
-    }
-
-    public class ModelLoader {
-        public AREngineActivity activity;
-        public ModelLoader(AREngineActivity activity) {
-            this.activity = activity;
-        }
-
-        public InputStream asset(String path) {
-            try {
-                return activity.getAssets().open(path);
-            } catch (IOException e) {
-                GLog.exception("Can't load model from assets: " + path, e);
-                return null;
-            }
-        }
-
-        public InputStream resource(String path) {
-            ClassLoader classLoader = this.getClass().getClassLoader();
-            return classLoader.getResourceAsStream(path);
-        }
-
-        public InputStream storage(String path) {
-            path = FileSystem.getStoregePath()+"/"+path;
-            File file = new File(path);
-            try {
-                return new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                GLog.exception("Can't load Model file: " + path, e);
-            }
-            return null;
         }
     }
 }

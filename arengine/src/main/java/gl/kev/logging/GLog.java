@@ -13,7 +13,7 @@ public class GLog {
 
     public static int LogFiler = 0;
 
-    public static void doLog(String message, LogType logType, int stackOffset, Exception exception) {
+    public static void doLog(String message, LogType logType, int stackOffset, Throwable exception) {
         // Check if this LogType is filtered.
         if((logType.getValue() & LogFiler) != 0)
             return;
@@ -34,9 +34,9 @@ public class GLog {
     public static void info(String message) { doLog(message, LogType.INFO, 1, null); }
     public static void warn(String message) { doLog(message, LogType.WARN, 1, null); }
     public static void debug(String message) { doLog(message, LogType.DEBUG, 1, null); }
-    public static void exception(String message, Exception exception) { doLog(message, LogType.EXCEPTION, 1, exception); }
-    public static void error(String message, Exception exception) { doLog(message, LogType.ERROR, 1, exception); }
-    public static void fatal(String message, Exception exception) { doLog(message, LogType.FATAL, 1, exception); }
+    public static void exception(String message, Throwable exception) { doLog(message, LogType.EXCEPTION, 1, exception); }
+    public static void error(String message, Throwable exception) { doLog(message, LogType.ERROR, 1, exception); }
+    public static void fatal(String message, Throwable exception) { doLog(message, LogType.FATAL, 1, exception); }
 
     public static void tryNLog(String message, IFuncV0 call) {
         try {

@@ -13,10 +13,10 @@ public class LogEntry {
     public LogType logType;
     public Date timeStamp;
     public StackTraceElement[] stackTrace;
-    public Exception exception;
+    public Throwable exception;
     public Thread thread;
 
-    public LogEntry(String message, LogType logType, int stackOffset, Exception exception) {
+    public LogEntry(String message, LogType logType, int stackOffset, Throwable exception) {
         this.message = message;
         this.logType = logType;
         this.timeStamp = new Date();

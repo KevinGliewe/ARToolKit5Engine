@@ -32,6 +32,7 @@ import java.util.Map;
 import javax.microedition.khronos.opengles.GL10;
 
 import gl.kev.ar.arengine.config.ARSceneConfig;
+import gl.kev.ar.arengine.config.ConfigLoader;
 import gl.kev.ar.arengine.helper.ActivityX;
 import gl.kev.ar.arengine.helper.FileSystem;
 import gl.kev.ar.arengine.helper.ViewX;
@@ -56,9 +57,15 @@ public class AREngineActivity extends ArJpctActivity {
 
     Map<String, View> mTrackedViews = new HashMap<>();
 
+    ConfigLoader configLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // Preloading Configuration
+        /*if(config == null) {
+            configLoader = new ConfigLoader(this);
+        }*/
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arengine);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -72,6 +79,7 @@ public class AREngineActivity extends ArJpctActivity {
                     new String[] { Manifest.permission.CAMERA },
                     MY_PERMISSIONS_REQUEST_CAMERA);
         }
+
         if(config == null) {
             config = provideConfig();
             GLog.success("Config loaded");
@@ -95,9 +103,14 @@ public class AREngineActivity extends ArJpctActivity {
     protected void populateTrackableObjects(List<TrackableObject3d> list) {
         JPCTHelper.init(this);
         Log.d(TAG, "populateTrackableObjects: ######################################################");
-        if(config != null) {
-            GLog.debug("Applying config to trackable objects");
-            config.apply(this, list);
+
+        try {
+            if (getConfig() != null) {
+                GLog.debug("Applying config to trackable objects");
+                getConfig().apply(this, list);
+            }
+        }catch (Throwable ex) {
+            GLog.exception("Exception while loading Config", ex);
         }
     }
 
@@ -108,8 +121,14 @@ public class AREngineActivity extends ArJpctActivity {
         if(config != null)
             config.apply_configWorld(this, world);
     }
+    public ARSceneConfig getConfig() throws Throwable {
+        if(config == null)
+            if(configLoader != null)
+                config = configLoader.get();
+        return config;
+    }
 
-    protected ARSceneConfig provideConfig() {
+    public ARSceneConfig provideConfig() {
         String path = getConfigPath();
         File file = new File(path);
         requestFileReadPermission();
@@ -129,7 +148,7 @@ public class AREngineActivity extends ArJpctActivity {
         return null;
     }
 
-    protected String getConfigPath() {
+    public String getConfigPath() {
         return FileSystem.getStoregePath()+"/arapp.json";
     }
 
