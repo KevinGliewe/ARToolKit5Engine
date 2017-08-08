@@ -1,4 +1,36 @@
 apply plugin: 'com.android.library'
+version = "5.3.2.3"
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// TEMPLATE /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+// Get Git informations
+def branch = "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+def revision = "git rev-parse --short HEAD".execute().text.trim()
+def origin = "git config --get remote.origin.url".execute().text.trim()
+def timestamp = new Date().format("yyyy-MM-dd HH:mm:ss")
+// Inject Variablet into templates
+def binding = [
+        "timestamp": timestamp,
+        "projectDir": projectDir,
+        "version": version,
+        "user": System.getProperty("user.name"),
+        "machine": InetAddress.getLocalHost().getHostName(),
+        "branch": branch,
+        "revision": revision,
+        "origin": origin,
+]
+def templengine = new groovy.text.SimpleTemplateEngine()
+projectDir.eachDirRecurse() { dir ->
+    dir.eachFileMatch(~/.*.templ/) { file ->
+        def targetfile = new File(file.getParent() + "/" + file.name.split("\\.")[0..-2].join("."))
+        println file.getPath()
+        println targetfile
+        targetfile.write(templengine.createTemplate(file).make(binding).toString())
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////////////
 
 android {
     compileSdkVersion 23
@@ -8,7 +40,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

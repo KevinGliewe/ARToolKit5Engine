@@ -1,8 +1,8 @@
-package org.artoolkit.ar;
+package gl.kev.ar.arengine;
 
 public class BuildInfo {
     public static final String TIMESTAMP = "2017-08-08 17:13:54";
-    public static final String PROJECTDIR = "/Users/kevingliewe/Documents/prog/Fraunhofer/ARApp/artoolkit5";
+    public static final String PROJECTDIR = "/Users/kevingliewe/Documents/prog/Fraunhofer/ARApp/arengine";
     public static final String VERSION = "5.3.2.3";
     public static final String USER = "kevingliewe";
     public static final String MACHINE = "Kevins-MacBook-Pro-2.local";

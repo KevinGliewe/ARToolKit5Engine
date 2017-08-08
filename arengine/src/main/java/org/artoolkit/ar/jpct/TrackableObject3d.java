@@ -10,6 +10,8 @@ import com.threed.jpct.World;
 
 import org.artoolkit.ar.base.ARToolKit;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.Map;
 import gl.kev.ar.arengine.config.ARMarkerOptions;
 import gl.kev.ar.arengine.helper.jpct.Node3D;
 import gl.kev.ar.arengine.helper.math.Position;
+import gl.kev.logging.GLog;
 
 
 /**
@@ -55,6 +58,11 @@ public class TrackableObject3d extends Object3D {
     }
 
     private ARMarkerOptions options = null;
+
+    private int lerped = Integer.MAX_VALUE;
+    private int frames_notVisible = 99999;
+
+    public boolean lerping = false;
 
     public TrackableObject3d(String markerString) {
         super(2); // 2 mx triangles, this object is the parent of all the trackable items
@@ -115,13 +123,40 @@ public class TrackableObject3d extends Object3D {
         }
         mPreviousVisibility = markerVisible;
         if (markerVisible) {
+            frames_notVisible=0;
             float[] transformation = ARToolKit.getInstance().queryMarkerTransformation(mMarkerId);
+            Position pos = new Position(new Matrix4f(transformation));
+
+            if(lerping) {
+                Position diff = mPosition.getDiff(pos, null);
+                //GLog.debug("~~~~~~~~~~~~~~~ diff: " + diff.toString());
+                float diffangle = diff.getQ().x + diff.getQ().y + diff.getQ().z;
+
+                if (diffangle < 0.0)
+                    diffangle = -diffangle;
+
+                //GLog.debug("~~~~~~~~~~~~~ diff: " + diffangle);
+
+                if (diffangle > 0.06 && lerped < 10) {
+                    GLog.info("lerping... " + lerped);
+                    Position lerped = new Position(
+                            mPosition.getV(),
+                            mPosition.getQ().nlerp(pos.getQ(), 0.1f, new Quaternionf())
+                    );
+                    pos = lerped;
+                    transformation = lerped.toMatrix4f(null).get(transformation);
+                    this.lerped++;
+                } else {
+                    lerped = 0;
+                }
+            }
+
             projMatrix.setDump(transformation);
             clearTranslation();
             translate(projMatrix.getTranslation());
             setRotationMatrix(projMatrix);
 
-            mPosition = new Position(new Matrix4f(transformation));
+            mPosition = pos;
 
             // Also, update all the lights
             for (int i=0; i<mLights.size(); i++) {
@@ -130,6 +165,10 @@ public class TrackableObject3d extends Object3D {
                 l.update(projMatrix.getTranslation());
                 mLights.get(i).setVisibility(true);
             }
+        } else {
+            frames_notVisible++;
+            if(frames_notVisible > 3)
+                this.lerped = Integer.MAX_VALUE;
         }
     }
 

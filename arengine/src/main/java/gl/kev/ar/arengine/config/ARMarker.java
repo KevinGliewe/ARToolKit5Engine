@@ -28,6 +28,8 @@ public class ARMarker {
 
     public boolean gizmo = false;
 
+    public boolean lerping = false;
+
     public ARMarkerOptions options;
 
     public void apply(AREngineActivity activity, List<TrackableObject3d> list) {
@@ -38,6 +40,7 @@ public class ARMarker {
 
         TrackableObject3d marker_ = new TrackableObject3d(marker);
         marker_.setOptions(options);
+        marker_.lerping = lerping;
         list.add(marker_);
 
         if(name != null)
