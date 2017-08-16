@@ -84,4 +84,20 @@ public class Node3D extends Object3D {
         }
         mWorld = null;
     }
+
+    @Override
+    public void setTransparency(int trans) {
+        super.setTransparency(trans);
+        for (int i=0; i<mChildren.size(); i++) {
+            mChildren.get(i).setTransparency(trans);
+        }
+    }
+
+    @Override
+    public void setTransparencyMode(int mode) {
+        super.setTransparencyMode(mode);
+        for (int i=0; i<mChildren.size(); i++) {
+            mChildren.get(i).setTransparencyMode(mode);
+        }
+    }
 }

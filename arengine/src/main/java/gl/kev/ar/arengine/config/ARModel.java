@@ -73,17 +73,19 @@ public class ARModel {
 
         if(model != null) {
             if(modelcache.containsKey(model))
-                object3DfArr = modelcache.get(model);
+                object3DfArr = cloneObject3DArr(modelcache.get(model));
             else
                 inputStream = (InputStream) Scripting.execute(model, context);
         } else {
             GLog.info("model is null");
         }
 
+        Node3D node = new Node3D();
+
         if(inputStream != null || object3DfArr != null) {
             if(inputStream != null)
                 object3DfArr = Loader.loadOBJ(inputStream, null, 1.0F);
-            Node3D node = new Node3D();
+
             for(Object3D object3Df : object3DfArr) {
                 node.addChild(object3Df);
             }
@@ -112,7 +114,16 @@ public class ARModel {
             context.put("marker", marker);
             context.put("config", this);
             context.put("objects3D", object3DfArr);
+            context.put("node", node);
             Scripting.execute(script, context);
         }
+    }
+
+    public static Object3D[] cloneObject3DArr(Object3D[] arr) {
+        Object3D[] ret = new Object3D[arr.length];
+        for(int i = 0 ; i < arr.length ; i++) {
+            ret[i] = arr[i].cloneObject();
+        }
+        return ret;
     }
 }

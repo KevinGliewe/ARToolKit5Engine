@@ -27,6 +27,14 @@
                     "scale": 1,
                     "rx": -1.5708,
                     "model":"loader.asset('models/teapot.obj');"
+                },
+                {
+                  "scale": 1,
+                  "rx": -1.5708,
+                  "ry": 3.14159,
+                  "rz": 3.14159,
+                  "transparency": 5,
+                  "model":"loader.asset('models/teapot.obj');"
                 }
             ],
             "tags": [
